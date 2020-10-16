@@ -23,6 +23,8 @@ class TestAnswer:
         browser.get(link)
         time.sleep(5)
         answer = math.log(int(time.time()))
+
+        # обратить внимание на эту часть:)
         blank = browser.find_element_by_css_selector('textarea[placeholder="Type your answer here..."]')
         blank.sendkeys(answer)
 
