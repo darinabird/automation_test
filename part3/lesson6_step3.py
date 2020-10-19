@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 import time
 import math
+from selenium.webdriver.common.keys import Keys
 
 
 @pytest.fixture(scope="function")
@@ -18,13 +19,15 @@ class TestAnswer:
     def test_diff_links(self, browser, num):
         link = f"https://stepik.org/lesson/{num}/step/1"
         browser.get(link)
+
         answer = math.log(int(time.time()))
-        browser.implicitly_wait(5)
+        browser.implicitly_wait(10)
 
-        blank = browser.find_element_by_xpath("//textarea[@placeholder='Type your answer here...']")
-        blank.sendkeys(answer.text)
+        blank = browser.find_element_by_css_selector("textarea")
+        blank.send_keys(f"{answer}")
 
-        button = browser.find_element_by_css_selector("submit-button")
+        button = browser.find_element_by_css_selector(".submit-submission")
         button.click()
-        message = browser.find_element_by_id("verify_message")
+
+        message = browser.find_element_by_css_selector(".smart-hints__hint")
         assert "Correct!" in message.text
